@@ -41,4 +41,8 @@ public class UserStoriesRepository {
     userStories.removeIf(userStory -> userStory.id().equals(updatedUserStory.id()));
     userStories.add(updatedUserStory);
   }
+
+  public void deleteUserStory(Integer deleteId) {
+    userStories.removeIf(userStory -> userStory.id().equals(deleteId));
+  }
 }
