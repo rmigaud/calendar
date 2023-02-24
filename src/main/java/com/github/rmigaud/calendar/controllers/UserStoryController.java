@@ -2,6 +2,7 @@ package com.github.rmigaud.calendar.controllers;
 
 import com.github.rmigaud.calendar.models.UserStory;
 import com.github.rmigaud.calendar.repositories.UserStoriesRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +33,7 @@ public class UserStoryController {
   }
 
   @GetMapping("/{id}")
-  public UserStory findById(@PathVariable Integer id) {
+  public UserStory findById(@Valid @PathVariable Integer id) {
     return userStoriesRepo.findById(id).orElseThrow(
         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Story " +
             "not found!"));
@@ -40,14 +41,14 @@ public class UserStoryController {
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("")
-  public void createUserStory(@RequestBody UserStory us) {
+  public void createUserStory(@Valid @RequestBody UserStory us) {
     userStoriesRepo.saveUserStory(us);
   }
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @PutMapping("/{id}")
-  public void updateUserStory(@RequestBody UserStory us,
-                              @PathVariable Integer id) {
+  public void updateUserStory(@Valid @RequestBody UserStory us,
+                              @Valid @PathVariable Integer id) {
     if (userStoriesRepo.hasId(id)) {
       userStoriesRepo.updateUserStory(us);
     } else {
@@ -57,7 +58,7 @@ public class UserStoryController {
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{id}")
-  public void deleteUserStory(@PathVariable Integer id) {
+  public void deleteUserStory(@Valid @PathVariable Integer id) {
     if (userStoriesRepo.hasId(id)) {
       userStoriesRepo.deleteUserStory(id);
     } else {
